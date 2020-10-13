@@ -1143,8 +1143,8 @@ func saveResource(tx Tx, resource atc.ResourceConfig, pipelineID int) (int, erro
 
 	var resourceID int
 	err = psql.Insert("resources").
-		Columns("name", "pipeline_id", "config", "active", "nonce", "type").
-		Values(resource.Name, pipelineID, encryptedPayload, true, nonce, resource.Type).
+		Columns("name", "human_readable", "pipeline_id", "config", "active", "nonce", "type").
+		Values(resource.Name, resource.HumanReadable, pipelineID, encryptedPayload, true, nonce, resource.Type).
 		Suffix("ON CONFLICT (name, pipeline_id) DO UPDATE SET config = EXCLUDED.config, active = EXCLUDED.active, nonce = EXCLUDED.nonce, type = EXCLUDED.type").
 		Suffix("RETURNING id").
 		RunWith(tx).
