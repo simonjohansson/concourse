@@ -354,6 +354,8 @@ function createGraph(svg, jobs, resources) {
   var resourceFailing = {};
   var resourcePinned = {};
   var resourceIcons = {};
+  var resourceNames = {};
+  var jobNames = {};
 
   for (var i in resources) {
     var resource = resources[i];
@@ -361,6 +363,7 @@ function createGraph(svg, jobs, resources) {
     resourceFailing[resource.name] = resource.failing_to_check;
     resourcePinned[resource.name] = resource.pinned_version;
     resourceIcons[resource.name] = resource.icon;
+    resourceNames[resource.name] = resource.hasOwnProperty('human_readable') && resource.human_readable != "" ? resource.human_readable : resource.name;
   }
 
   for (var i in jobs) {
@@ -396,7 +399,7 @@ function createGraph(svg, jobs, resources) {
 
     graph.setNode(id, new GraphNode({
       id: id,
-      name: job.name,
+      name: job.hasOwnProperty('human_readable') && job.human_readable != "" ? job.human_readable : job.name,
       class: classes.join(" "),
       status: status,
       url: url,
@@ -431,7 +434,7 @@ function createGraph(svg, jobs, resources) {
         addIcon(resourceIcons[output.resource], outputId);
         jobOutputNode = new GraphNode({
           id: outputId,
-          name: output.resource,
+          name: resourceNames[output.resource],
           icon: resourceIcons[output.resource],
           key: output.resource,
           class: "output" + resourceStatus(output.resource),
@@ -472,7 +475,7 @@ function createGraph(svg, jobs, resources) {
               addIcon(resourceIcons[input.resource], sourceInputNode);
               graph.setNode(sourceInputNode, new GraphNode({
                 id: sourceInputNode,
-                name: input.resource,
+                name: resourceNames[input.resource],
                 icon: resourceIcons[input.resource],
                 key: input.resource,
                 class: "constrained-input" + (resourcePinned[input.resource] ? " pinned" : ""),
@@ -515,7 +518,7 @@ function createGraph(svg, jobs, resources) {
           addIcon(resourceIcons[input.resource], inputId);
           graph.setNode(inputId, new GraphNode({
             id: inputId,
-            name: input.resource,
+            name: resourceNames[input.resource],
             icon: resourceIcons[input.resource],
             key: input.resource,
             class: "input" + resourceStatus(input.resource),

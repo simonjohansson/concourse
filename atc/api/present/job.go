@@ -53,6 +53,7 @@ func Job(
 		ID: job.ID(),
 
 		Name:                 job.Name(),
+		HumanReadable:        job.HumanReadable(),
 		PipelineID:           job.PipelineID(),
 		PipelineName:         job.PipelineName(),
 		PipelineInstanceVars: job.PipelineInstanceVars(),

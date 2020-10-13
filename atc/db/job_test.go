@@ -29,9 +29,9 @@ var _ = Describe("Job", func() {
 		pipeline, created, err = team.SavePipeline(atc.PipelineRef{Name: "fake-pipeline"}, atc.Config{
 			Jobs: atc.JobConfigs{
 				{
-					Name: "some-job",
-
-					Public: true,
+					Name:          "some-job",
+					HumanReadable: "Some cool job with special chars such as -> :D",
+					Public:        true,
 
 					PlanSequence: []atc.Step{
 						{
@@ -2873,6 +2873,15 @@ var _ = Describe("Job", func() {
 					Resource: "some-resource",
 				},
 			}))
+		})
+	})
+
+	FDescribe("Human readable", func() {
+		It("returns human_readable for the job if it was saved with one", func() {
+			job, found, err := pipeline.Job("some-job")
+			Expect(err).ToNot(HaveOccurred())
+			Expect(found).To(BeTrue())
+			Expect(job.HumanReadable()).To(Equal("Some cool job with special chars such as -> :D"))
 		})
 	})
 })
