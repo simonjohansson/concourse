@@ -355,7 +355,6 @@ function createGraph(svg, jobs, resources) {
   var resourcePinned = {};
   var resourceIcons = {};
   var resourceNames = {};
-  var jobNames = {};
 
   for (var i in resources) {
     var resource = resources[i];
