@@ -2086,7 +2086,7 @@ var _ = Describe("Team", func() {
 			Expect(err).ToNot(HaveOccurred())
 			Expect(found).To(BeTrue())
 			Expect(job.Public()).To(BeFalse())
-			Expect(job.DisplayName()).To(BeFalse())
+			Expect(job.DisplayName()).To(Equal(displayName))
 
 			config, err := job.Config()
 			Expect(err).ToNot(HaveOccurred())
