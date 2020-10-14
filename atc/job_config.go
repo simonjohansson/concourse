@@ -2,7 +2,7 @@ package atc
 
 type JobConfig struct {
 	Name        string `json:"name"`
-	DisplayName string `json:"display_name"`
+	DisplayName string `json:"display_name,omitempty"`
 	OldName     string `json:"old_name,omitempty"`
 	Public      bool   `json:"public,omitempty"`
 
