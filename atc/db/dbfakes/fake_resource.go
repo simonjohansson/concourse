@@ -132,6 +132,16 @@ type FakeResource struct {
 	disableVersionReturnsOnCall map[int]struct {
 		result1 error
 	}
+	DisplayNameStub        func() string
+	displayNameMutex       sync.RWMutex
+	displayNameArgsForCall []struct {
+	}
+	displayNameReturns struct {
+		result1 string
+	}
+	displayNameReturnsOnCall map[int]struct {
+		result1 string
+	}
 	EnableVersionStub        func(int) error
 	enableVersionMutex       sync.RWMutex
 	enableVersionArgsForCall []struct {
@@ -152,16 +162,6 @@ type FakeResource struct {
 	}
 	hasWebhookReturnsOnCall map[int]struct {
 		result1 bool
-	}
-	HumanReadableStub        func() string
-	humanReadableMutex       sync.RWMutex
-	humanReadableArgsForCall []struct {
-	}
-	humanReadableReturns struct {
-		result1 string
-	}
-	humanReadableReturnsOnCall map[int]struct {
-		result1 string
 	}
 	IDStub        func() int
 	iDMutex       sync.RWMutex
@@ -1131,6 +1131,58 @@ func (fake *FakeResource) DisableVersionReturnsOnCall(i int, result1 error) {
 	}{result1}
 }
 
+func (fake *FakeResource) DisplayName() string {
+	fake.displayNameMutex.Lock()
+	ret, specificReturn := fake.displayNameReturnsOnCall[len(fake.displayNameArgsForCall)]
+	fake.displayNameArgsForCall = append(fake.displayNameArgsForCall, struct {
+	}{})
+	fake.recordInvocation("DisplayName", []interface{}{})
+	fake.displayNameMutex.Unlock()
+	if fake.DisplayNameStub != nil {
+		return fake.DisplayNameStub()
+	}
+	if specificReturn {
+		return ret.result1
+	}
+	fakeReturns := fake.displayNameReturns
+	return fakeReturns.result1
+}
+
+func (fake *FakeResource) DisplayNameCallCount() int {
+	fake.displayNameMutex.RLock()
+	defer fake.displayNameMutex.RUnlock()
+	return len(fake.displayNameArgsForCall)
+}
+
+func (fake *FakeResource) DisplayNameCalls(stub func() string) {
+	fake.displayNameMutex.Lock()
+	defer fake.displayNameMutex.Unlock()
+	fake.DisplayNameStub = stub
+}
+
+func (fake *FakeResource) DisplayNameReturns(result1 string) {
+	fake.displayNameMutex.Lock()
+	defer fake.displayNameMutex.Unlock()
+	fake.DisplayNameStub = nil
+	fake.displayNameReturns = struct {
+		result1 string
+	}{result1}
+}
+
+func (fake *FakeResource) DisplayNameReturnsOnCall(i int, result1 string) {
+	fake.displayNameMutex.Lock()
+	defer fake.displayNameMutex.Unlock()
+	fake.DisplayNameStub = nil
+	if fake.displayNameReturnsOnCall == nil {
+		fake.displayNameReturnsOnCall = make(map[int]struct {
+			result1 string
+		})
+	}
+	fake.displayNameReturnsOnCall[i] = struct {
+		result1 string
+	}{result1}
+}
+
 func (fake *FakeResource) EnableVersion(arg1 int) error {
 	fake.enableVersionMutex.Lock()
 	ret, specificReturn := fake.enableVersionReturnsOnCall[len(fake.enableVersionArgsForCall)]
@@ -1240,58 +1292,6 @@ func (fake *FakeResource) HasWebhookReturnsOnCall(i int, result1 bool) {
 	}
 	fake.hasWebhookReturnsOnCall[i] = struct {
 		result1 bool
-	}{result1}
-}
-
-func (fake *FakeResource) HumanReadable() string {
-	fake.humanReadableMutex.Lock()
-	ret, specificReturn := fake.humanReadableReturnsOnCall[len(fake.humanReadableArgsForCall)]
-	fake.humanReadableArgsForCall = append(fake.humanReadableArgsForCall, struct {
-	}{})
-	fake.recordInvocation("HumanReadable", []interface{}{})
-	fake.humanReadableMutex.Unlock()
-	if fake.HumanReadableStub != nil {
-		return fake.HumanReadableStub()
-	}
-	if specificReturn {
-		return ret.result1
-	}
-	fakeReturns := fake.humanReadableReturns
-	return fakeReturns.result1
-}
-
-func (fake *FakeResource) HumanReadableCallCount() int {
-	fake.humanReadableMutex.RLock()
-	defer fake.humanReadableMutex.RUnlock()
-	return len(fake.humanReadableArgsForCall)
-}
-
-func (fake *FakeResource) HumanReadableCalls(stub func() string) {
-	fake.humanReadableMutex.Lock()
-	defer fake.humanReadableMutex.Unlock()
-	fake.HumanReadableStub = stub
-}
-
-func (fake *FakeResource) HumanReadableReturns(result1 string) {
-	fake.humanReadableMutex.Lock()
-	defer fake.humanReadableMutex.Unlock()
-	fake.HumanReadableStub = nil
-	fake.humanReadableReturns = struct {
-		result1 string
-	}{result1}
-}
-
-func (fake *FakeResource) HumanReadableReturnsOnCall(i int, result1 string) {
-	fake.humanReadableMutex.Lock()
-	defer fake.humanReadableMutex.Unlock()
-	fake.HumanReadableStub = nil
-	if fake.humanReadableReturnsOnCall == nil {
-		fake.humanReadableReturnsOnCall = make(map[int]struct {
-			result1 string
-		})
-	}
-	fake.humanReadableReturnsOnCall[i] = struct {
-		result1 string
 	}{result1}
 }
 
@@ -3097,12 +3097,12 @@ func (fake *FakeResource) Invocations() map[string][][]interface{} {
 	defer fake.currentPinnedVersionMutex.RUnlock()
 	fake.disableVersionMutex.RLock()
 	defer fake.disableVersionMutex.RUnlock()
+	fake.displayNameMutex.RLock()
+	defer fake.displayNameMutex.RUnlock()
 	fake.enableVersionMutex.RLock()
 	defer fake.enableVersionMutex.RUnlock()
 	fake.hasWebhookMutex.RLock()
 	defer fake.hasWebhookMutex.RUnlock()
-	fake.humanReadableMutex.RLock()
-	defer fake.humanReadableMutex.RUnlock()
 	fake.iDMutex.RLock()
 	defer fake.iDMutex.RUnlock()
 	fake.iconMutex.RLock()

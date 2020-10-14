@@ -133,6 +133,16 @@ type FakeJob struct {
 	disableManualTriggerReturnsOnCall map[int]struct {
 		result1 bool
 	}
+	DisplayNameStub        func() string
+	displayNameMutex       sync.RWMutex
+	displayNameArgsForCall []struct {
+	}
+	displayNameReturns struct {
+		result1 string
+	}
+	displayNameReturnsOnCall map[int]struct {
+		result1 string
+	}
 	EnsurePendingBuildExistsStub        func(context.Context) error
 	ensurePendingBuildExistsMutex       sync.RWMutex
 	ensurePendingBuildExistsArgsForCall []struct {
@@ -215,16 +225,6 @@ type FakeJob struct {
 	}
 	hasNewInputsReturnsOnCall map[int]struct {
 		result1 bool
-	}
-	HumanReadableStub        func() string
-	humanReadableMutex       sync.RWMutex
-	humanReadableArgsForCall []struct {
-	}
-	humanReadableReturns struct {
-		result1 string
-	}
-	humanReadableReturnsOnCall map[int]struct {
-		result1 string
 	}
 	IDStub        func() int
 	iDMutex       sync.RWMutex
@@ -1056,6 +1056,58 @@ func (fake *FakeJob) DisableManualTriggerReturnsOnCall(i int, result1 bool) {
 	}{result1}
 }
 
+func (fake *FakeJob) DisplayName() string {
+	fake.displayNameMutex.Lock()
+	ret, specificReturn := fake.displayNameReturnsOnCall[len(fake.displayNameArgsForCall)]
+	fake.displayNameArgsForCall = append(fake.displayNameArgsForCall, struct {
+	}{})
+	fake.recordInvocation("DisplayName", []interface{}{})
+	fake.displayNameMutex.Unlock()
+	if fake.DisplayNameStub != nil {
+		return fake.DisplayNameStub()
+	}
+	if specificReturn {
+		return ret.result1
+	}
+	fakeReturns := fake.displayNameReturns
+	return fakeReturns.result1
+}
+
+func (fake *FakeJob) DisplayNameCallCount() int {
+	fake.displayNameMutex.RLock()
+	defer fake.displayNameMutex.RUnlock()
+	return len(fake.displayNameArgsForCall)
+}
+
+func (fake *FakeJob) DisplayNameCalls(stub func() string) {
+	fake.displayNameMutex.Lock()
+	defer fake.displayNameMutex.Unlock()
+	fake.DisplayNameStub = stub
+}
+
+func (fake *FakeJob) DisplayNameReturns(result1 string) {
+	fake.displayNameMutex.Lock()
+	defer fake.displayNameMutex.Unlock()
+	fake.DisplayNameStub = nil
+	fake.displayNameReturns = struct {
+		result1 string
+	}{result1}
+}
+
+func (fake *FakeJob) DisplayNameReturnsOnCall(i int, result1 string) {
+	fake.displayNameMutex.Lock()
+	defer fake.displayNameMutex.Unlock()
+	fake.DisplayNameStub = nil
+	if fake.displayNameReturnsOnCall == nil {
+		fake.displayNameReturnsOnCall = make(map[int]struct {
+			result1 string
+		})
+	}
+	fake.displayNameReturnsOnCall[i] = struct {
+		result1 string
+	}{result1}
+}
+
 func (fake *FakeJob) EnsurePendingBuildExists(arg1 context.Context) error {
 	fake.ensurePendingBuildExistsMutex.Lock()
 	ret, specificReturn := fake.ensurePendingBuildExistsReturnsOnCall[len(fake.ensurePendingBuildExistsArgsForCall)]
@@ -1443,58 +1495,6 @@ func (fake *FakeJob) HasNewInputsReturnsOnCall(i int, result1 bool) {
 	}
 	fake.hasNewInputsReturnsOnCall[i] = struct {
 		result1 bool
-	}{result1}
-}
-
-func (fake *FakeJob) HumanReadable() string {
-	fake.humanReadableMutex.Lock()
-	ret, specificReturn := fake.humanReadableReturnsOnCall[len(fake.humanReadableArgsForCall)]
-	fake.humanReadableArgsForCall = append(fake.humanReadableArgsForCall, struct {
-	}{})
-	fake.recordInvocation("HumanReadable", []interface{}{})
-	fake.humanReadableMutex.Unlock()
-	if fake.HumanReadableStub != nil {
-		return fake.HumanReadableStub()
-	}
-	if specificReturn {
-		return ret.result1
-	}
-	fakeReturns := fake.humanReadableReturns
-	return fakeReturns.result1
-}
-
-func (fake *FakeJob) HumanReadableCallCount() int {
-	fake.humanReadableMutex.RLock()
-	defer fake.humanReadableMutex.RUnlock()
-	return len(fake.humanReadableArgsForCall)
-}
-
-func (fake *FakeJob) HumanReadableCalls(stub func() string) {
-	fake.humanReadableMutex.Lock()
-	defer fake.humanReadableMutex.Unlock()
-	fake.HumanReadableStub = stub
-}
-
-func (fake *FakeJob) HumanReadableReturns(result1 string) {
-	fake.humanReadableMutex.Lock()
-	defer fake.humanReadableMutex.Unlock()
-	fake.HumanReadableStub = nil
-	fake.humanReadableReturns = struct {
-		result1 string
-	}{result1}
-}
-
-func (fake *FakeJob) HumanReadableReturnsOnCall(i int, result1 string) {
-	fake.humanReadableMutex.Lock()
-	defer fake.humanReadableMutex.Unlock()
-	fake.HumanReadableStub = nil
-	if fake.humanReadableReturnsOnCall == nil {
-		fake.humanReadableReturnsOnCall = make(map[int]struct {
-			result1 string
-		})
-	}
-	fake.humanReadableReturnsOnCall[i] = struct {
-		result1 string
 	}{result1}
 }
 
@@ -2941,6 +2941,8 @@ func (fake *FakeJob) Invocations() map[string][][]interface{} {
 	defer fake.createBuildMutex.RUnlock()
 	fake.disableManualTriggerMutex.RLock()
 	defer fake.disableManualTriggerMutex.RUnlock()
+	fake.displayNameMutex.RLock()
+	defer fake.displayNameMutex.RUnlock()
 	fake.ensurePendingBuildExistsMutex.RLock()
 	defer fake.ensurePendingBuildExistsMutex.RUnlock()
 	fake.finishedAndNextBuildMutex.RLock()
@@ -2955,8 +2957,6 @@ func (fake *FakeJob) Invocations() map[string][][]interface{} {
 	defer fake.getPendingBuildsMutex.RUnlock()
 	fake.hasNewInputsMutex.RLock()
 	defer fake.hasNewInputsMutex.RUnlock()
-	fake.humanReadableMutex.RLock()
-	defer fake.humanReadableMutex.RUnlock()
 	fake.iDMutex.RLock()
 	defer fake.iDMutex.RUnlock()
 	fake.inputsMutex.RLock()

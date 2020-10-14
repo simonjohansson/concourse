@@ -22,7 +22,7 @@ func Resource(resource db.Resource, showCheckError bool, teamName string) atc.Re
 
 	atcResource := atc.Resource{
 		Name:                 resource.Name(),
-		HumanReadable:        resource.HumanReadable(),
+		DisplayName:          resource.DisplayName(),
 		PipelineID:           resource.PipelineID(),
 		PipelineName:         resource.PipelineName(),
 		PipelineInstanceVars: resource.PipelineInstanceVars(),

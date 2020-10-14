@@ -1,4 +1,4 @@
 BEGIN;
-    ALTER TABLE resources ADD COLUMN human_readable text;
-    ALTER TABLE jobs ADD COLUMN human_readable text;
+    ALTER TABLE resources ADD COLUMN display_name text;
+    ALTER TABLE jobs ADD COLUMN display_name text;
 COMMIT;

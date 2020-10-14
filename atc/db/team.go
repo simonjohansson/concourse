@@ -1106,8 +1106,8 @@ func saveJob(tx Tx, job atc.JobConfig, pipelineID int, groups []string) (int, er
 
 	var jobID int
 	err = psql.Insert("jobs").
-		Columns("name", "human_readable", "pipeline_id", "config", "public", "max_in_flight", "disable_manual_trigger", "interruptible", "active", "nonce", "tags").
-		Values(job.Name, job.HumanReadable, pipelineID, encryptedPayload, job.Public, job.MaxInFlight(), job.DisableManualTrigger, job.Interruptible, true, nonce, pq.Array(groups)).
+		Columns("name", "display_name", "pipeline_id", "config", "public", "max_in_flight", "disable_manual_trigger", "interruptible", "active", "nonce", "tags").
+		Values(job.Name, job.DisplayName, pipelineID, encryptedPayload, job.Public, job.MaxInFlight(), job.DisableManualTrigger, job.Interruptible, true, nonce, pq.Array(groups)).
 		Suffix("ON CONFLICT (name, pipeline_id) DO UPDATE SET config = EXCLUDED.config, public = EXCLUDED.public, max_in_flight = EXCLUDED.max_in_flight, disable_manual_trigger = EXCLUDED.disable_manual_trigger, interruptible = EXCLUDED.interruptible, active = EXCLUDED.active, nonce = EXCLUDED.nonce, tags = EXCLUDED.tags").
 		Suffix("RETURNING id").
 		RunWith(tx).
@@ -1143,8 +1143,8 @@ func saveResource(tx Tx, resource atc.ResourceConfig, pipelineID int) (int, erro
 
 	var resourceID int
 	err = psql.Insert("resources").
-		Columns("name", "human_readable", "pipeline_id", "config", "active", "nonce", "type").
-		Values(resource.Name, resource.HumanReadable, pipelineID, encryptedPayload, true, nonce, resource.Type).
+		Columns("name", "display_name", "pipeline_id", "config", "active", "nonce", "type").
+		Values(resource.Name, resource.DisplayName, pipelineID, encryptedPayload, true, nonce, resource.Type).
 		Suffix("ON CONFLICT (name, pipeline_id) DO UPDATE SET config = EXCLUDED.config, active = EXCLUDED.active, nonce = EXCLUDED.nonce, type = EXCLUDED.type").
 		Suffix("RETURNING id").
 		RunWith(tx).

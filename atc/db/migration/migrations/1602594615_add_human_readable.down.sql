@@ -1,4 +1,4 @@
 BEGIN;
-    ALTER TABLE resources DROP COLUMN human_readable;
-    ALTER TABLE jobs DROP COLUMN human_readable;
+    ALTER TABLE resources DROP COLUMN display_name;
+    ALTER TABLE jobs DROP COLUMN display_name;
 COMMIT;

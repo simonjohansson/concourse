@@ -362,7 +362,7 @@ function createGraph(svg, jobs, resources) {
     resourceFailing[resource.name] = resource.failing_to_check;
     resourcePinned[resource.name] = resource.pinned_version;
     resourceIcons[resource.name] = resource.icon;
-    resourceNames[resource.name] = resource.hasOwnProperty('human_readable') && resource.human_readable != "" ? resource.human_readable : resource.name;
+    resourceNames[resource.name] = resource.hasOwnProperty('display_name') && resource.display_name != "" ? resource.display_name : resource.name;
   }
 
   for (var i in jobs) {
@@ -398,7 +398,7 @@ function createGraph(svg, jobs, resources) {
 
     graph.setNode(id, new GraphNode({
       id: id,
-      name: job.hasOwnProperty('human_readable') && job.human_readable != "" ? job.human_readable : job.name,
+      name: job.hasOwnProperty('display_name') && job.display_name != "" ? job.display_name : job.name,
       class: classes.join(" "),
       status: status,
       url: url,

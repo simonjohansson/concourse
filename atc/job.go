@@ -4,7 +4,7 @@ type Job struct {
 	ID int `json:"id"`
 
 	Name                 string       `json:"name"`
-	HumanReadable        string       `json:"human_readable,omitempty"`
+	DisplayName          string       `json:"display_name,omitempty"`
 	PipelineID           int          `json:"pipeline_id"`
 	PipelineName         string       `json:"pipeline_name"`
 	PipelineInstanceVars InstanceVars `json:"pipeline_instance_vars,omitempty"`

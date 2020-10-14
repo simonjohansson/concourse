@@ -42,7 +42,7 @@ func DashboardJob(
 		ID: job.ID,
 
 		Name:                 job.Name,
-		HumanReadable:        job.HumanReadable,
+		DisplayName:          job.DisplayName,
 		PipelineID:           job.PipelineID,
 		PipelineName:         job.PipelineName,
 		PipelineInstanceVars: job.PipelineInstanceVars,
