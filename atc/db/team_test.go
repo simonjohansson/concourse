@@ -2071,11 +2071,13 @@ var _ = Describe("Team", func() {
 			Expect(job.Config()).To(Equal(config.Jobs[0]))
 		})
 
-		It("updates job config", func() {
+		FIt("updates job config", func() {
 			pipeline, _, err := team.SavePipeline(pipelineRef, config, 0, false)
 			Expect(err).ToNot(HaveOccurred())
 
+			displayName := "Yay"
 			config.Jobs[0].Public = false
+			config.Jobs[0].DisplayName = displayName
 
 			_, _, err = team.SavePipeline(pipelineRef, config, pipeline.ConfigVersion(), false)
 			Expect(err).ToNot(HaveOccurred())
@@ -2084,6 +2086,11 @@ var _ = Describe("Team", func() {
 			Expect(err).ToNot(HaveOccurred())
 			Expect(found).To(BeTrue())
 			Expect(job.Public()).To(BeFalse())
+			Expect(job.DisplayName()).To(BeFalse())
+
+			config, err := job.Config()
+			Expect(err).ToNot(HaveOccurred())
+			Expect(config.DisplayName).To(Equal(displayName))
 		})
 
 		It("marks job inactive when it is no longer in pipeline", func() {
